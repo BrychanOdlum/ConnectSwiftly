@@ -3253,7 +3253,6 @@
 		OBJ_14 /* ConnectSwiftly */ = {
 			isa = PBXGroup;
 			children = (
-				71F8266820151BDD00D097FB /* Game */,
 				OBJ_15 /* main.swift */,
 				71F8267120152D9E00D097FB /* Util.swift */,
 			);
@@ -4088,6 +4087,7 @@
 		OBJ_8 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				71F8266820151BDD00D097FB /* Game */,
 				OBJ_9 /* Application.swift */,
 				OBJ_10 /* InitializationError.swift */,
 				OBJ_11 /* Metrics.swift */,
