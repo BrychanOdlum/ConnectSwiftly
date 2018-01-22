@@ -1,0 +1,14 @@
+{
+  "appType": "scaffold",
+  "appName": "ConnectSwiftly",
+  "docker": true,
+  "metrics": true,
+  "bluemix": {
+    "backendPlatform": "SWIFT",
+    "name": "ConnectSwiftly",
+    "server": {
+      "name": "ConnectSwiftly",
+      "env": {}
+    }
+  }
+}
