@@ -24,7 +24,7 @@ public class GameManager {
 			}
 		}
 		
-		let game = Game(key: code)
+		let game = Game(key: code!)
 		games[code!] = game
 		
 		return game

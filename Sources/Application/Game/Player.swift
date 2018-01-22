@@ -9,9 +9,9 @@ import Foundation
 
 public class Player: Equatable {
 	
-	public var key: String!
+	public var key: String
 	
-	init(key: String!) {
+	init(key: String) {
 		self.key = key
 	}
 	

@@ -3085,6 +3085,7 @@
 				71F8266D20151EE100D097FB /* Board.swift */,
 				71F8266920151BF200D097FB /* Player.swift */,
 				71F8266B20151C7D00D097FB /* Coord.swift */,
+				71F8267120152D9E00D097FB /* Util.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -3254,7 +3255,6 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_15 /* main.swift */,
-				71F8267120152D9E00D097FB /* Util.swift */,
 			);
 			name = ConnectSwiftly;
 			path = Sources/ConnectSwiftly;

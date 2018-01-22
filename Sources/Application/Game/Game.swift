@@ -9,17 +9,17 @@ import Foundation
 
 public class Game {
 	
-	public var key: String!
+	public var key: String
 	
-	public var host: Player!
+	public var host: Player
 	public var guest: Player?
 	
-	public var turn: Player!
+	public var turn: Player
 	public var winner: Player?
 	
-	public var board: Board!
+	public var board: Board
 	
-	init(key: String!) {
+	init(key: String) {
 		self.key = key
 		self.board = Board(width: 7, height: 6)
 		
@@ -40,7 +40,7 @@ public class Game {
 		return guestKey
 	}
 	
-	public func insert(column: Int!, player: Player!) -> Bool {
+	public func insert(column: Int, player: Player?) -> Bool {
 		if winner != nil {
 			return false
 		}
@@ -49,10 +49,10 @@ public class Game {
 			return false
 		}
 		
-		let _ = board.insert(column: column, player: player)
+		let _ = board.insert(column: column, player: player!)
 		
 		if turn == host {
-			turn = guest
+			turn = guest!
 		} else {
 			turn = host
 		}
@@ -72,7 +72,7 @@ public class Game {
 		return true
 	}
 	
-	public func detectVictory(column: Int!, row: Int!) -> Bool {
+	public func detectVictory(column: Int, row: Int) -> Bool {
 		return board.countAdjacent(column: column, row: row) >= 4
 	}
 	

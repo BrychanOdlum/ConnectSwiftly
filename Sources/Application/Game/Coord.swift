@@ -9,8 +9,8 @@ import Foundation
 
 public class Coord: Equatable, Hashable {
 	
-	public var column: Int!
-	public var row: Int!
+	public var column: Int
+	public var row: Int
 	
 	init(column: Int!, row: Int!) {
 		self.column = column

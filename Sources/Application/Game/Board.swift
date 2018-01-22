@@ -13,16 +13,16 @@ public class Board {
 	public var height: Int
 	private var cells: [Coord: Player] = [:]
 	
-	init(width: Int!, height: Int!) {
+	init(width: Int, height: Int) {
 		self.width = width
 		self.height = height
 	}
 	
-	public func getCell(coord: Coord!) -> Player? {
+	public func getCell(coord: Coord) -> Player? {
 		return cells[coord]
 	}
 	
-	func insert(column: Int!, player: Player!) -> Bool {
+	func insert(column: Int, player: Player) -> Bool {
 		for row in 0..<height {
 			let coord = Coord(column: column, row: row)
 			if cells[coord] == nil {
@@ -34,7 +34,7 @@ public class Board {
 		return false
 	}
 	
-	public func countAdjacent(column: Int!, row: Int!) -> Int! {
+	public func countAdjacent(column: Int, row: Int) -> Int! {
 		let player: Player = cells[Coord(column: column, row: row)]!
 		var maxCount = 0
 		var c: Int!, r: Int!, count: Int!

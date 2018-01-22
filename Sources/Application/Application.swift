@@ -35,30 +35,21 @@ public class App {
 			
 			let game = self.gameManager.createGame()
 			
-			let data = CreateGame(gameID: game.key!, hostID: game.host.key!)
+			let data = CreateGame(gameID: game.key, hostID: game.host.key)
 			try response.send(data).end()
 		}
 		
 		// [GET] GAME JOIN
 		router.get("/game/join/:game") { request, response, _ in
-			let gameKey = request.parameters["game"] ?? ""
-			
-			print("key \(gameKey)")
-			
-			let game = self.gameManager.getGame(id: gameKey)
-			
-			if game == nil {
-				try response.send(ErrorJSON()).end()
-				return
+			guard
+				let gameID = request.parameters["game"],
+				let game = self.gameManager.getGame(id: gameID),
+				let guestKey = game.guestJoin() else {
+					try response.send(ErrorJSON()).end()
+					return
 			}
 			
-			let guestKey = game?.guestJoin()
-			if guestKey == nil {
-				try response.send(ErrorJSON()).end()
-				return
-			}
-			
-			let data = JoinGame(guestID: guestKey!)
+			let data = JoinGame(guestID: guestKey)
 			try response.send(data).end()
 		}
 		
@@ -66,23 +57,16 @@ public class App {
 		router.get("/game/place/:game/:user/:column") { request, response, _ in
 			guard
 				let gameID = request.parameters["game"],
+				let game = self.gameManager.getGame(id: gameID),
 				let userID = request.parameters["user"],
-				let column = request.parameters["column"] else {
+				let player = game.getPlayer(key: userID),
+				let columnString = request.parameters["column"],
+				let column = Int(columnString) else {
 					try response.send(ErrorJSON()).end()
 					return
 			}
 			
-			let game = self.gameManager.getGame(id: gameID)
-			let player = game?.getPlayer(key: userID)
-			let columnID = Int(column)
-			
-			if player == nil {
-				try response.send(ErrorJSON()).end()
-				return
-			}
-			
-			game?.insert(column: columnID, player: player!)
-			
+			let _ = game.insert(column: column, player: player)
 			try response.send(SuccessJSON()).end()
 		}
 		
@@ -90,19 +74,14 @@ public class App {
 		router.get("/game/fetch/:game/:user") { request, response, _ in
 			guard
 				let gameID = request.parameters["game"],
-				let userID = request.parameters["user"] else {
-					try response.send(ErrorJSON()).end()
-					return
-			}
-			
-			guard
 				let game = self.gameManager.getGame(id: gameID),
+				let userID = request.parameters["user"],
 				let player = game.getPlayer(key: userID) else {
 					try response.send(ErrorJSON()).end()
 					return
 			}
 			
-			let data = FetchGame(board: game.board!, host: game.host!, guest: game.guest != nil, turn: game.turn == player, winner: game.winner)
+			let data = FetchGame(board: game.board, host: game.host, guest: game.guest != nil, turn: game.turn == player, winner: game.winner)
 			try response.send(data).end()
 		}
 		
@@ -110,19 +89,16 @@ public class App {
 		router.get("/game/check/:game/:column/:row") { request, response, _ in
 			guard
 				let gameID = request.parameters["game"],
-				let column = request.parameters["column"],
-				let row = request.parameters["row"] else {
+				let game = self.gameManager.getGame(id: gameID),
+				let columnString = request.parameters["column"],
+				let column = Int(columnString),
+				let rowString = request.parameters["row"],
+				let row = Int(rowString) else {
 					try response.send(ErrorJSON()).end()
 					return
 			}
 			
-			guard let game = self.gameManager.getGame(id: gameID) else {
-				try response.send(ErrorJSON()).end()
-				return
-			}
-			
-			let data = game.detectVictory(column: Int(column), row: Int(row)) ? "Win" : "Loss"
-			
+			let data = game.detectVictory(column: column, row: row) ? "Win" : "Loss"
 			try response.send(data).end()
 		}
     }
@@ -132,6 +108,4 @@ public class App {
         Kitura.addHTTPServer(onPort: cloudEnv.port, with: router)
         Kitura.run()
     }
-	
-	
 }
